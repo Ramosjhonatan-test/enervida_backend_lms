@@ -1,0 +1,79 @@
+
+--- ERROR [2026-05-06T01:28:53.792Z] ---
+Type: BadRequestException
+Message: Usuario no encontrado
+Stack: BadRequestException: Usuario no encontrado
+    at AuthService.forgotPassword (D:\Enervida\Backend\src\auth\auth.service.ts:214:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-proxy.js:9:17
+Full Error: {"stack":"BadRequestException: Usuario no encontrado\n    at AuthService.forgotPassword (D:\\Enervida\\Backend\\src\\auth\\auth.service.ts:214:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-execution-context.js:46:28\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-proxy.js:9:17","response":{"message":"Usuario no encontrado"},"status":400,"options":{},"message":"Usuario no encontrado","name":"BadRequestException"}
+---------------------------
+
+--- ERROR [2026-05-06T01:30:41.593Z] ---
+Type: InternalServerErrorException
+Message: Error al enviar el correo de recuperación. Por favor intente más tarde.
+Stack: InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.
+    at AuthService.forgotPassword (D:\Enervida\Backend\src\auth\auth.service.ts:225:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-proxy.js:9:17
+Full Error: {"stack":"InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.\n    at AuthService.forgotPassword (D:\\Enervida\\Backend\\src\\auth\\auth.service.ts:225:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-execution-context.js:46:28\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-proxy.js:9:17","response":{"message":"Error al enviar el correo de recuperación. Por favor intente más tarde."},"status":500,"options":{},"message":"Error al enviar el correo de recuperación. Por favor intente más tarde.","name":"InternalServerErrorException"}
+---------------------------
+
+--- ERROR [2026-05-06T01:31:13.766Z] ---
+Type: InternalServerErrorException
+Message: Error al enviar el correo de recuperación. Por favor intente más tarde.
+Stack: InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.
+    at AuthService.forgotPassword (D:\Enervida\Backend\src\auth\auth.service.ts:225:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-proxy.js:9:17
+Full Error: {"stack":"InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.\n    at AuthService.forgotPassword (D:\\Enervida\\Backend\\src\\auth\\auth.service.ts:225:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-execution-context.js:46:28\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-proxy.js:9:17","response":{"message":"Error al enviar el correo de recuperación. Por favor intente más tarde."},"status":500,"options":{},"message":"Error al enviar el correo de recuperación. Por favor intente más tarde.","name":"InternalServerErrorException"}
+---------------------------
+
+--- MAIL ERROR [2026-05-06T01:31:32.703Z] ---
+Message: Invalid login: 535 Authentication failed
+Code: EAUTH
+Response: 535 Authentication failed
+---------------------------
+
+--- ERROR [2026-05-06T01:31:32.706Z] ---
+Type: InternalServerErrorException
+Message: Error al enviar el correo de recuperación. Por favor intente más tarde.
+Stack: InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.
+    at AuthService.forgotPassword (D:\Enervida\Backend\src\auth\auth.service.ts:225:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-proxy.js:9:17
+Full Error: {"stack":"InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.\n    at AuthService.forgotPassword (D:\\Enervida\\Backend\\src\\auth\\auth.service.ts:225:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-execution-context.js:46:28\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-proxy.js:9:17","response":{"message":"Error al enviar el correo de recuperación. Por favor intente más tarde."},"status":500,"options":{},"message":"Error al enviar el correo de recuperación. Por favor intente más tarde.","name":"InternalServerErrorException"}
+---------------------------
+
+--- MAIL ERROR [2026-05-06T01:31:41.843Z] ---
+Message: Invalid login: 535 Authentication failed
+Code: EAUTH
+Response: 535 Authentication failed
+---------------------------
+
+--- ERROR [2026-05-06T01:31:41.845Z] ---
+Type: InternalServerErrorException
+Message: Error al enviar el correo de recuperación. Por favor intente más tarde.
+Stack: InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.
+    at AuthService.forgotPassword (D:\Enervida\Backend\src\auth\auth.service.ts:225:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-execution-context.js:46:28
+    at async D:\Enervida\Backend\node_modules\@nestjs\core\router\router-proxy.js:9:17
+Full Error: {"stack":"InternalServerErrorException: Error al enviar el correo de recuperación. Por favor intente más tarde.\n    at AuthService.forgotPassword (D:\\Enervida\\Backend\\src\\auth\\auth.service.ts:225:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-execution-context.js:46:28\n    at async D:\\Enervida\\Backend\\node_modules\\@nestjs\\core\\router\\router-proxy.js:9:17","response":{"message":"Error al enviar el correo de recuperación. Por favor intente más tarde."},"status":500,"options":{},"message":"Error al enviar el correo de recuperación. Por favor intente más tarde.","name":"InternalServerErrorException"}
+---------------------------
+
+--- MAIL ERROR [2026-05-06T01:32:09.991Z] ---
+Message: Invalid login: 535 Authentication failed
+Code: EAUTH
+Response: 535 Authentication failed
+---------------------------
+
+--- MAIL ERROR [2026-05-06T01:32:35.607Z] ---
+Message: Invalid login: 535 Authentication failed
+Code: EAUTH
+Response: 535 Authentication failed
+---------------------------

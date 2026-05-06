@@ -1,0 +1,313 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Rol {
+  id             Int       @id @default(autoincrement())
+  nombre         String    @unique
+  descripcion    String?
+  fecha_creacion DateTime  @default(now())
+  usuarios       Usuario[]
+
+  @@map("roles")
+}
+
+model Usuario {
+  id                  Int                       @id @default(autoincrement())
+  rol_id              Int
+  nombres             String
+  apellidos           String
+  correo              String                    @unique
+  contrasena_hash     String?
+  google_id           String?                   @unique
+  ci                  String?                   @unique
+  telefono            String?
+  imagen_perfil       String?
+  estado              String                    @default("ACTIVO")
+  correo_verificado   Boolean                   @default(false)
+  ultimo_login        DateTime?
+  fecha_creacion      DateTime                  @default(now())
+  fecha_actualizacion DateTime                  @updatedAt
+  refresh_token       String?
+  auditoria_logs      AuditoriaLog[]
+  certificados        Certificado[]
+  clases_creadas      ClaseEnVivo[]             @relation("CreadorClases")
+  cursos_instructor   Curso[]                   @relation("InstructorCursos")
+  dispositivos        DispositivoUsuario[]
+  inscripciones       Inscripcion[]
+  intentos_evaluacion IntentoEvaluacion[]
+  notificaciones      Notificacion[]
+  participaciones     ParticipanteClaseEnVivo[]
+  progreso_lecciones  ProgresoLeccion[]
+  tokens_recuperacion TokenRecuperacion[]
+  rol                 Rol                       @relation(fields: [rol_id], references: [id])
+
+  @@map("usuarios")
+}
+
+model DispositivoUsuario {
+  id                 Int       @id @default(autoincrement())
+  usuario_id         Int
+  nombre_dispositivo String?
+  sistema_operativo  String?
+  navegador          String?
+  fingerprint        String?
+  direccion_ip       String?
+  activo             Boolean   @default(true)
+  ultimo_acceso      DateTime?
+  fecha_creacion     DateTime  @default(now())
+  user_agent         String?
+  usuario            Usuario   @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("dispositivos_usuario")
+}
+
+model Categoria {
+  id             Int      @id @default(autoincrement())
+  nombre         String   @unique
+  descripcion    String?
+  fecha_creacion DateTime @default(now())
+  cursos         Curso[]
+
+  @@map("categorias")
+}
+
+model Curso {
+  id                     Int           @id @default(autoincrement())
+  categoria_id           Int
+  instructor_id          Int
+  titulo                 String
+  slug                   String        @unique
+  descripcion_corta      String?
+  descripcion            String?
+  miniatura_url          String?
+  nivel                  String?
+  tipo_curso             String?
+  certificado_habilitado Boolean       @default(true)
+  publicado              Boolean       @default(false)
+  precio                 Decimal?      @db.Decimal(10, 2)
+  fecha_creacion         DateTime      @default(now())
+  fecha_actualizacion    DateTime      @updatedAt
+  certificados           Certificado[]
+  clases_en_vivo         ClaseEnVivo[]
+  categoria              Categoria     @relation(fields: [categoria_id], references: [id])
+  instructor             Usuario       @relation("InstructorCursos", fields: [instructor_id], references: [id])
+  evaluaciones           Evaluacion[]
+  inscripciones          Inscripcion[]
+  modulos                Modulo[]
+  plantilla_certificado  CertificadoPlantilla?
+
+  @@map("cursos")
+}
+
+model CertificadoPlantilla {
+  id                  Int      @id @default(autoincrement())
+  curso_id            Int      @unique
+  nombre              String
+  background_url      String
+  config              Json     // { student: {x, y, size, color}, course: {x, y, size, color}, date: {x, y, size, color} }
+  fecha_creacion      DateTime @default(now())
+  fecha_actualizacion DateTime @updatedAt
+  curso               Curso    @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+
+  @@map("certificado_plantillas")
+}
+
+model Modulo {
+  id             Int       @id @default(autoincrement())
+  curso_id       Int
+  titulo         String
+  orden_modulo   Int
+  fecha_creacion DateTime  @default(now())
+  lecciones      Leccion[]
+  curso          Curso     @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+
+  @@map("modulos")
+}
+
+model Leccion {
+  id               Int               @id @default(autoincrement())
+  modulo_id        Int
+  titulo           String
+  orden_leccion    Int
+  tipo_contenido   String
+  video_url        String?
+  pdf_url          String?
+  contenido        String?
+  duracion_minutos Int?
+  es_preview       Boolean           @default(false)
+  fecha_creacion   DateTime          @default(now())
+  modulo           Modulo            @relation(fields: [modulo_id], references: [id], onDelete: Cascade)
+  progresos        ProgresoLeccion[]
+
+  @@map("lecciones")
+}
+
+model ClaseEnVivo {
+  id             Int                       @id @default(autoincrement())
+  curso_id       Int
+  titulo         String
+  descripcion    String?
+  sala_jitsi     String
+  fecha_inicio   DateTime
+  fecha_fin      DateTime?
+  creado_por     Int
+  fecha_creacion DateTime                  @default(now())
+  creador        Usuario                   @relation("CreadorClases", fields: [creado_por], references: [id])
+  curso          Curso                     @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+  participantes  ParticipanteClaseEnVivo[]
+
+  @@map("clases_en_vivo")
+}
+
+model ParticipanteClaseEnVivo {
+  id                 Int         @id @default(autoincrement())
+  clase_en_vivo_id   Int
+  usuario_id         Int
+  hora_ingreso       DateTime
+  hora_salida        DateTime?
+  minutos_asistencia Int?
+  clase_en_vivo      ClaseEnVivo @relation(fields: [clase_en_vivo_id], references: [id])
+  usuario            Usuario     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("participantes_clase_en_vivo")
+}
+
+model Inscripcion {
+  id                  Int       @id @default(autoincrement())
+  usuario_id          Int
+  curso_id            Int
+  estado              String    @default("PENDIENTE")
+  porcentaje_progreso Decimal   @default(0) @db.Decimal(5, 2)
+  fecha_inscripcion   DateTime  @default(now())
+  fecha_completado    DateTime?
+  curso               Curso     @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+  usuario             Usuario   @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("inscripciones")
+}
+
+model ProgresoLeccion {
+  id               Int       @id @default(autoincrement())
+  usuario_id       Int
+  leccion_id       Int
+  completado       Boolean   @default(false)
+  fecha_completado DateTime?
+  segundos_vistos  Int       @default(0)
+  leccion          Leccion   @relation(fields: [leccion_id], references: [id])
+  usuario          Usuario   @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("progreso_lecciones")
+}
+
+model Evaluacion {
+  id                  Int                 @id @default(autoincrement())
+  curso_id            Int
+  titulo              String
+  descripcion         String?
+  nota_aprobacion     Decimal             @db.Decimal(5, 2)
+  tiempo_limite       Int?
+  intentos_permitidos Int                 @default(1)
+  fecha_creacion      DateTime            @default(now())
+  curso               Curso               @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+  intentos            IntentoEvaluacion[]
+  preguntas           Pregunta[]
+
+  @@map("evaluaciones")
+}
+
+model Pregunta {
+  id            Int         @id @default(autoincrement())
+  evaluacion_id Int
+  pregunta      String
+  tipo_pregunta String
+  puntos        Int         @default(1)
+  evaluacion    Evaluacion  @relation(fields: [evaluacion_id], references: [id])
+  respuestas    Respuesta[]
+
+  @@map("preguntas")
+}
+
+model Respuesta {
+  id          Int      @id @default(autoincrement())
+  pregunta_id Int
+  respuesta   String
+  es_correcta Boolean  @default(false)
+  pregunta    Pregunta @relation(fields: [pregunta_id], references: [id])
+
+  @@map("respuestas")
+}
+
+model IntentoEvaluacion {
+  id            Int        @id @default(autoincrement())
+  evaluacion_id Int
+  usuario_id    Int
+  nota          Decimal?   @db.Decimal(5, 2)
+  fecha_inicio  DateTime   @default(now())
+  fecha_fin     DateTime?
+  aprobado      Boolean?
+  evaluacion    Evaluacion @relation(fields: [evaluacion_id], references: [id])
+  usuario       Usuario    @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("intentos_evaluacion")
+}
+
+model Certificado {
+  id                 Int      @id @default(autoincrement())
+  usuario_id         Int
+  curso_id           Int
+  codigo_certificado String   @unique
+  pdf_url            String
+  fecha_emision      DateTime @default(now())
+  curso              Curso    @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+  usuario            Usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("certificados")
+}
+
+model TokenRecuperacion {
+  id             Int      @id @default(autoincrement())
+  usuario_id     Int
+  token          String   @unique
+  expira_en      DateTime
+  usado          Boolean  @default(false)
+  fecha_creacion DateTime @default(now())
+  usuario        Usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("tokens_recuperacion")
+}
+
+model Notificacion {
+  id             Int      @id @default(autoincrement())
+  usuario_id     Int
+  titulo         String
+  mensaje        String
+  leido          Boolean  @default(false)
+  fecha_creacion DateTime @default(now())
+  usuario        Usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("notificaciones")
+}
+
+model AuditoriaLog {
+  id                 Int      @id @default(autoincrement())
+  usuario_id         Int?
+  accion             String
+  entidad            String
+  entidad_id         Int?
+  descripcion        String?
+  valores_anteriores Json?
+  valores_nuevos     Json?
+  direccion_ip       String?
+  user_agent         String?
+  metodo_request     String?
+  endpoint           String?
+  fecha_creacion     DateTime @default(now())
+  usuario            Usuario? @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("auditoria_logs")
+}
