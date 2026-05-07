@@ -142,9 +142,9 @@ export declare class UsuariosService {
             id: number;
             usuario_id: number;
             fecha_inicio: Date;
-            fecha_fin: Date | null;
             evaluacion_id: number;
             nota: import("@prisma/client-runtime-utils").Decimal | null;
+            fecha_fin: Date | null;
             aprobado: boolean | null;
         })[];
     } & {
