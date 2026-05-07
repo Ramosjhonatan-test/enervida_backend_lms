@@ -1,22 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
-
+import dns from 'dns';
 @Injectable()
 export class MailsService {
   private transporter: nodemailer.Transporter;
 
   constructor(private configService: ConfigService) {
     const port = this.configService.get<number>('SMTP_PORT');
-    this.transporter = nodemailer.createTransport({
-      host: this.configService.get<string>('SMTP_HOST'),
-      port: Number(port),
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: this.configService.get<string>('SMTP_USER'),
-        pass: this.configService.get<string>('SMTP_PASS'),
-      },
-    });
+
+dns.setDefaultResultOrder('ipv4first'); // 👈 fuerza IPv4
+
+this.transporter = nodemailer.createTransport({
+  host: this.configService.get<string>('SMTP_HOST'),
+  port: Number(this.configService.get<number>('SMTP_PORT')),
+  secure: false, // porque usas 587
+  auth: {
+    user: this.configService.get<string>('SMTP_USER'),
+    pass: this.configService.get<string>('SMTP_PASS'),
+  },
+});
+
   }
 
   async sendMail(to: string, subject: string, html: string) {

@@ -41,20 +41,25 @@ var __importStar = (this && this.__importStar) || (function () {
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailsService = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const nodemailer = __importStar(require("nodemailer"));
+const dns_1 = __importDefault(require("dns"));
 let MailsService = class MailsService {
     configService;
     transporter;
     constructor(configService) {
         this.configService = configService;
         const port = this.configService.get('SMTP_PORT');
+        dns_1.default.setDefaultResultOrder('ipv4first');
         this.transporter = nodemailer.createTransport({
             host: this.configService.get('SMTP_HOST'),
-            port: Number(port),
+            port: Number(this.configService.get('SMTP_PORT')),
             secure: false,
             auth: {
                 user: this.configService.get('SMTP_USER'),
