@@ -21,7 +21,7 @@ let TokensRecuperacionService = class TokensRecuperacionService {
     async createToken(usuarioId) {
         const token = (0, uuid_1.v4)();
         const expiraEn = new Date();
-        expiraEn.setHours(expiraEn.getMinutes() + 10);
+        expiraEn.setMinutes(expiraEn.getMinutes() + 15);
         return await this.prisma.tokenRecuperacion.create({
             data: {
                 usuario_id: usuarioId,

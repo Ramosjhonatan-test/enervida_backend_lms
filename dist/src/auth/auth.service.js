@@ -254,22 +254,23 @@ let AuthService = class AuthService {
                 throw new common_1.BadRequestException('Usuario no encontrado');
             }
             const tokenRecord = await this.tokensService.createToken(user.id);
-            try {
-                await this.mailsService.sendPasswordResetEmail(user.correo, user.nombres, tokenRecord.token);
-            }
-            catch (mailError) {
+            this.mailsService.sendPasswordResetEmail(user.correo, user.nombres, tokenRecord.token)
+                .then(() => {
+                console.log(`Correo de recuperación enviado exitosamente a: ${user.correo}`);
+            })
+                .catch(mailError => {
                 console.error('CRITICAL: Error al enviar correo de recuperación:', mailError.message);
                 const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${tokenRecord.token}`;
-                console.log('--- DEBUG RECOVERY LINK ---');
-                console.log(resetUrl);
-                console.log('---------------------------');
-                return {
-                    message: 'Solicitud procesada',
-                    debug_info: 'El servicio de correo falló, pero puedes usar el token en consola si estás en desarrollo.'
-                };
-            }
+                console.log('--- DEBUG RECOVERY LINK (EMAIL FAILED) ---');
+                console.log(`Destinatario: ${user.correo}`);
+                console.log(`URL: ${resetUrl}`);
+                console.log('-----------------------------------------');
+            });
             await this.logAuditoria(user.id, 'PASSWORD_RESET_REQUEST', 'usuarios', user.id, `Solicitud de recuperación de contraseña`);
-            return { message: 'Correo de recuperación enviado' };
+            return {
+                message: 'Si el correo existe en nuestro sistema, recibirás un enlace de recuperación en breve.',
+                success: true
+            };
         }
         catch (error) {
             if (error instanceof common_1.BadRequestException || error instanceof common_1.InternalServerErrorException) {

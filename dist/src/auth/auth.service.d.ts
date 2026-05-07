@@ -54,10 +54,7 @@ export declare class AuthService {
     updateRefreshToken(userId: number, refreshToken: string): Promise<void>;
     forgotPassword(email: string): Promise<{
         message: string;
-        debug_info: string;
-    } | {
-        message: string;
-        debug_info?: undefined;
+        success: boolean;
     }>;
     resetPassword(token: string, newPassword: string): Promise<{
         message: string;

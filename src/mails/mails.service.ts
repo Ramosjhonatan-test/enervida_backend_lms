@@ -14,11 +14,16 @@ dns.setDefaultResultOrder('ipv4first'); // 👈 fuerza IPv4
 this.transporter = nodemailer.createTransport({
   host: this.configService.get<string>('SMTP_HOST'),
   port: Number(this.configService.get<number>('SMTP_PORT')),
-  secure: false, // porque usas 587
+  secure: false, // 587 uses STARTTLS
   auth: {
     user: this.configService.get<string>('SMTP_USER'),
     pass: this.configService.get<string>('SMTP_PASS'),
   },
+  pool: true, // Reutiliza conexiones para mayor velocidad
+  maxConnections: 5,
+  maxMessages: 100,
+  connectionTimeout: 5000, // 5 segundos max para conectar
+  greetingTimeout: 5000,   // 5 segundos max para el saludo SMTP
 });
 
   }

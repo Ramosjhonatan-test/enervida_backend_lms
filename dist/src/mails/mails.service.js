@@ -65,6 +65,11 @@ let MailsService = class MailsService {
                 user: this.configService.get('SMTP_USER'),
                 pass: this.configService.get('SMTP_PASS'),
             },
+            pool: true,
+            maxConnections: 5,
+            maxMessages: 100,
+            connectionTimeout: 5000,
+            greetingTimeout: 5000,
         });
     }
     async sendMail(to, subject, html) {

@@ -238,27 +238,29 @@ export class AuthService {
 
       const tokenRecord = await this.tokensService.createToken(user.id);
       
-      try {
-        await this.mailsService.sendPasswordResetEmail(user.correo, user.nombres, tokenRecord.token);
-      } catch (mailError) {
-        console.error('CRITICAL: Error al enviar correo de recuperación:', mailError.message);
-        
-        // En desarrollo, permitimos que el flujo continúe para no bloquear al usuario
-        // y mostramos el token en consola para que puedan probar el reset.
-        const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${tokenRecord.token}`;
-        console.log('--- DEBUG RECOVERY LINK ---');
-        console.log(resetUrl);
-        console.log('---------------------------');
-        
-        return { 
-          message: 'Solicitud procesada',
-          debug_info: 'El servicio de correo falló, pero puedes usar el token en consola si estás en desarrollo.'
-        };
-      }
+      // No esperamos (await) el envío del correo para que la respuesta sea instantánea.
+      // Se maneja el error en un bloque catch separado.
+      this.mailsService.sendPasswordResetEmail(user.correo, user.nombres, tokenRecord.token)
+        .then(() => {
+          console.log(`Correo de recuperación enviado exitosamente a: ${user.correo}`);
+        })
+        .catch(mailError => {
+          console.error('CRITICAL: Error al enviar correo de recuperación:', mailError.message);
+          
+          // Debug info en consola
+          const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${tokenRecord.token}`;
+          console.log('--- DEBUG RECOVERY LINK (EMAIL FAILED) ---');
+          console.log(`Destinatario: ${user.correo}`);
+          console.log(`URL: ${resetUrl}`);
+          console.log('-----------------------------------------');
+        });
 
       await this.logAuditoria(user.id, 'PASSWORD_RESET_REQUEST', 'usuarios', user.id, `Solicitud de recuperación de contraseña`);
       
-      return { message: 'Correo de recuperación enviado' };
+      return { 
+        message: 'Si el correo existe en nuestro sistema, recibirás un enlace de recuperación en breve.',
+        success: true 
+      };
     } catch (error) {
       if (error instanceof BadRequestException || error instanceof InternalServerErrorException) {
         throw error;
