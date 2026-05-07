@@ -57,9 +57,24 @@ let UsuariosService = class UsuariosService {
         if (contrasena) {
             data.contrasena_hash = await bcrypt.hash(contrasena, 10);
         }
-        return this.prisma.usuario.create({
-            data,
-        });
+        try {
+            return await this.prisma.usuario.create({
+                data,
+            });
+        }
+        catch (error) {
+            if (error.code === 'P2002') {
+                const target = error.meta?.target || [];
+                if (target.includes('ci')) {
+                    throw new common_1.BadRequestException('La cédula/DNI ya está registrada por otro usuario.');
+                }
+                if (target.includes('correo')) {
+                    throw new common_1.BadRequestException('El correo electrónico ya está registrado por otro usuario.');
+                }
+                throw new common_1.BadRequestException('Ya existe un registro con estos datos únicos.');
+            }
+            throw error;
+        }
     }
     async findAll() {
         return this.prisma.usuario.findMany({
@@ -122,10 +137,25 @@ let UsuariosService = class UsuariosService {
         if (contrasena) {
             data.contrasena_hash = await bcrypt.hash(contrasena, 10);
         }
-        return this.prisma.usuario.update({
-            where: { id },
-            data,
-        });
+        try {
+            return await this.prisma.usuario.update({
+                where: { id },
+                data,
+            });
+        }
+        catch (error) {
+            if (error.code === 'P2002') {
+                const target = error.meta?.target || [];
+                if (target.includes('ci')) {
+                    throw new common_1.BadRequestException('La cédula/DNI ya está registrada por otro usuario.');
+                }
+                if (target.includes('correo')) {
+                    throw new common_1.BadRequestException('El correo electrónico ya está registrado por otro usuario.');
+                }
+                throw new common_1.BadRequestException('Ya existe un registro con estos datos únicos.');
+            }
+            throw error;
+        }
     }
     async remove(id) {
         await this.findOne(id);

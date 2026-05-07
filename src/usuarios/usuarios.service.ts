@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -14,9 +14,23 @@ export class UsuariosService {
     if (contrasena) {
       data.contrasena_hash = await bcrypt.hash(contrasena, 10);
     }
-    return this.prisma.usuario.create({
-      data,
-    });
+    try {
+      return await this.prisma.usuario.create({
+        data,
+      });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        const target = error.meta?.target || [];
+        if (target.includes('ci')) {
+          throw new BadRequestException('La cédula/DNI ya está registrada por otro usuario.');
+        }
+        if (target.includes('correo')) {
+          throw new BadRequestException('El correo electrónico ya está registrado por otro usuario.');
+        }
+        throw new BadRequestException('Ya existe un registro con estos datos únicos.');
+      }
+      throw error;
+    }
   }
 
   async findAll() {
@@ -78,13 +92,30 @@ export class UsuariosService {
     await this.findOne(id); // Verifica existencia
     const { contrasena, ...rest } = updateDto as any;
     const data = { ...rest };
+
     if (contrasena) {
       data.contrasena_hash = await bcrypt.hash(contrasena, 10);
     }
-    return this.prisma.usuario.update({
-      where: { id },
-      data,
-    });
+
+    try {
+      return await this.prisma.usuario.update({
+        where: { id },
+        data,
+      });
+    } catch (error) {
+      // Manejar error de unicidad (P2002 es el código de Prisma para Unique Constraint Violation)
+      if (error.code === 'P2002') {
+        const target = error.meta?.target || [];
+        if (target.includes('ci')) {
+          throw new BadRequestException('La cédula/DNI ya está registrada por otro usuario.');
+        }
+        if (target.includes('correo')) {
+          throw new BadRequestException('El correo electrónico ya está registrado por otro usuario.');
+        }
+        throw new BadRequestException('Ya existe un registro con estos datos únicos.');
+      }
+      throw error;
+    }
   }
 
   async remove(id: number) {

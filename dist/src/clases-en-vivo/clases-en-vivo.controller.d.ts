@@ -11,8 +11,8 @@ export declare class ClaseEnVivosController {
         descripcion: string | null;
         titulo: string;
         fecha_inicio: Date;
-        fecha_fin: Date | null;
         sala_jitsi: string;
+        fecha_fin: Date | null;
         creado_por: number;
     }>;
     findAll(): Promise<{
@@ -22,8 +22,8 @@ export declare class ClaseEnVivosController {
         descripcion: string | null;
         titulo: string;
         fecha_inicio: Date;
-        fecha_fin: Date | null;
         sala_jitsi: string;
+        fecha_fin: Date | null;
         creado_por: number;
     }[]>;
     findOne(id: number): Promise<{
@@ -33,8 +33,8 @@ export declare class ClaseEnVivosController {
         descripcion: string | null;
         titulo: string;
         fecha_inicio: Date;
-        fecha_fin: Date | null;
         sala_jitsi: string;
+        fecha_fin: Date | null;
         creado_por: number;
     }>;
     update(id: number, updateDto: UpdateClaseEnVivoDto): Promise<{
@@ -44,8 +44,8 @@ export declare class ClaseEnVivosController {
         descripcion: string | null;
         titulo: string;
         fecha_inicio: Date;
-        fecha_fin: Date | null;
         sala_jitsi: string;
+        fecha_fin: Date | null;
         creado_por: number;
     }>;
     remove(id: number): Promise<{
@@ -55,8 +55,8 @@ export declare class ClaseEnVivosController {
         descripcion: string | null;
         titulo: string;
         fecha_inicio: Date;
-        fecha_fin: Date | null;
         sala_jitsi: string;
+        fecha_fin: Date | null;
         creado_por: number;
     }>;
 }

@@ -58,7 +58,12 @@ export class ProgresoLeccionsService {
     });
   }
 
-  async findAll() {
+  async findAll(usuario_id?: number) {
+    if (usuario_id) {
+      return this.prisma.progresoLeccion.findMany({
+        where: { usuario_id }
+      });
+    }
     return this.prisma.progresoLeccion.findMany();
   }
 

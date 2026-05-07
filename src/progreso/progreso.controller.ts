@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { User } from '../auth/decorators/user.decorator';
 import { ProgresoLeccionsService } from './progreso.service';
 import { CreateProgresoLeccionDto } from './dto/create-progreso-leccion.dto';
 import { UpdateProgresoLeccionDto } from './dto/update-progreso-leccion.dto';
@@ -10,15 +12,19 @@ export class ProgresoLeccionsController {
   constructor(private readonly service: ProgresoLeccionsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Crear ProgresoLeccion' })
-  create(@Body() createDto: CreateProgresoLeccionDto) {
+  create(@User('sub') userId: number, @Body() createDto: CreateProgresoLeccionDto) {
+    // Aseguramos que el progreso sea para el usuario autenticado
+    createDto.usuario_id = userId;
     return this.service.create(createDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar todos los ProgresoLeccions' })
-  findAll() {
-    return this.service.findAll();
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Listar mis progresos de lección' })
+  findAll(@User('sub') userId: number) {
+    return this.service.findAll(userId);
   }
 
   @Get(':id')
