@@ -10,17 +10,17 @@ export class MailsService {
   constructor(private configService: ConfigService) {
     const port = this.configService.get<number>('SMTP_PORT');
 
-
 this.transporter = nodemailer.createTransport({
   host: this.configService.get<string>('SMTP_HOST'),
   port: Number(this.configService.get<number>('SMTP_PORT')),
-  secure: true,
+  secure: true, // porque usas 465
   auth: {
     user: this.configService.get<string>('SMTP_USER'),
     pass: this.configService.get<string>('SMTP_PASS'),
   },
   tls: {
-    family: 4
+    // 👇 fuerza IPv4
+    servername: this.configService.get<string>('SMTP_HOST')
   }
 } as SMTPTransport.Options);
 

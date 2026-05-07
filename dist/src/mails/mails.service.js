@@ -61,7 +61,7 @@ let MailsService = class MailsService {
                 pass: this.configService.get('SMTP_PASS'),
             },
             tls: {
-                family: 4
+                servername: this.configService.get('SMTP_HOST')
             }
         });
     }
