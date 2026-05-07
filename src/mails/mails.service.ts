@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 @Injectable()
 export class MailsService {
@@ -9,21 +8,15 @@ export class MailsService {
 
   constructor(private configService: ConfigService) {
     const port = this.configService.get<number>('SMTP_PORT');
-
-this.transporter = nodemailer.createTransport({
-  host: this.configService.get<string>('SMTP_HOST'),
-  port: Number(this.configService.get<number>('SMTP_PORT')),
-  secure: true, // porque usas 465
-  auth: {
-    user: this.configService.get<string>('SMTP_USER'),
-    pass: this.configService.get<string>('SMTP_PASS'),
-  },
-  tls: {
-    // 👇 fuerza IPv4
-    servername: this.configService.get<string>('SMTP_HOST')
-  }
-} as SMTPTransport.Options);
-
+    this.transporter = nodemailer.createTransport({
+      host: this.configService.get<string>('SMTP_HOST'),
+      port: Number(port),
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: this.configService.get<string>('SMTP_USER'),
+        pass: this.configService.get<string>('SMTP_PASS'),
+      },
+    });
   }
 
   async sendMail(to: string, subject: string, html: string) {

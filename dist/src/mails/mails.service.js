@@ -54,15 +54,12 @@ let MailsService = class MailsService {
         const port = this.configService.get('SMTP_PORT');
         this.transporter = nodemailer.createTransport({
             host: this.configService.get('SMTP_HOST'),
-            port: Number(this.configService.get('SMTP_PORT')),
-            secure: true,
+            port: Number(port),
+            secure: false,
             auth: {
                 user: this.configService.get('SMTP_USER'),
                 pass: this.configService.get('SMTP_PASS'),
             },
-            tls: {
-                servername: this.configService.get('SMTP_HOST')
-            }
         });
     }
     async sendMail(to, subject, html) {
