@@ -13,7 +13,7 @@ export declare class ProgresoLeccionsService {
         segundos_vistos: number;
     }>;
     updateInscriptionProgress(usuario_id: number, leccion_id: number): Promise<void>;
-    findAll(): Promise<{
+    findAll(usuario_id?: number): Promise<{
         id: number;
         usuario_id: number;
         fecha_completado: Date | null;

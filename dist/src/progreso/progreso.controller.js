@@ -14,6 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProgresoLeccionsController = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const user_decorator_1 = require("../auth/decorators/user.decorator");
 const progreso_service_1 = require("./progreso.service");
 const create_progreso_leccion_dto_1 = require("./dto/create-progreso-leccion.dto");
 const update_progreso_leccion_dto_1 = require("./dto/update-progreso-leccion.dto");
@@ -23,11 +25,12 @@ let ProgresoLeccionsController = class ProgresoLeccionsController {
     constructor(service) {
         this.service = service;
     }
-    create(createDto) {
+    create(userId, createDto) {
+        createDto.usuario_id = userId;
         return this.service.create(createDto);
     }
-    findAll() {
-        return this.service.findAll();
+    findAll(userId) {
+        return this.service.findAll(userId);
     }
     findOne(id) {
         return this.service.findOne(id);
@@ -42,17 +45,21 @@ let ProgresoLeccionsController = class ProgresoLeccionsController {
 exports.ProgresoLeccionsController = ProgresoLeccionsController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Crear ProgresoLeccion' }),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, user_decorator_1.User)('sub')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_progreso_leccion_dto_1.CreateProgresoLeccionDto]),
+    __metadata("design:paramtypes", [Number, create_progreso_leccion_dto_1.CreateProgresoLeccionDto]),
     __metadata("design:returntype", void 0)
 ], ProgresoLeccionsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, swagger_1.ApiOperation)({ summary: 'Listar todos los ProgresoLeccions' }),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiOperation)({ summary: 'Listar mis progresos de lección' }),
+    __param(0, (0, user_decorator_1.User)('sub')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], ProgresoLeccionsController.prototype, "findAll", null);
 __decorate([

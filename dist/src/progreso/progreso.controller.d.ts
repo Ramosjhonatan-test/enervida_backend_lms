@@ -4,7 +4,7 @@ import { UpdateProgresoLeccionDto } from './dto/update-progreso-leccion.dto';
 export declare class ProgresoLeccionsController {
     private readonly service;
     constructor(service: ProgresoLeccionsService);
-    create(createDto: CreateProgresoLeccionDto): Promise<{
+    create(userId: number, createDto: CreateProgresoLeccionDto): Promise<{
         id: number;
         usuario_id: number;
         fecha_completado: Date | null;
@@ -12,7 +12,7 @@ export declare class ProgresoLeccionsController {
         completado: boolean;
         segundos_vistos: number;
     }>;
-    findAll(): Promise<{
+    findAll(userId: number): Promise<{
         id: number;
         usuario_id: number;
         fecha_completado: Date | null;

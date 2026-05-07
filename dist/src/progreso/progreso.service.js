@@ -52,7 +52,12 @@ let ProgresoLeccionsService = class ProgresoLeccionsService {
             }
         });
     }
-    async findAll() {
+    async findAll(usuario_id) {
+        if (usuario_id) {
+            return this.prisma.progresoLeccion.findMany({
+                where: { usuario_id }
+            });
+        }
         return this.prisma.progresoLeccion.findMany();
     }
     async findOne(id) {
