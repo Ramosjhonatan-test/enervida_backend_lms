@@ -37,7 +37,10 @@ dns.setDefaultResultOrder('ipv4first'); // 👈 fuerza IPv4
     const from = this.configService.get<string>('SMTP_USER'); 
     try {
       await this.transporter.sendMail({
-        from,
+        from: {
+          name: 'Enervida LMS',
+          address: from,
+        },
         to,
         subject,
         html,
