@@ -37,8 +37,8 @@ export declare class InscripcionsService {
             nombres: string;
             apellidos: string;
             telefono: string | null;
-            ci: string | null;
             imagen_perfil: string | null;
+            ci: string | null;
         };
     } & {
         id: number;

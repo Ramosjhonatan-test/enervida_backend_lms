@@ -23,7 +23,17 @@ async function bootstrap() {
         .addBearerAuth()
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
-    swagger_1.SwaggerModule.setup('api', app, document);
+    swagger_1.SwaggerModule.setup('api', app, document, {
+        customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+        customJs: [
+            'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js',
+        ],
+        customfavIcon: 'https://nestjs.com/img/logo-small.svg',
+        swaggerOptions: {
+            persistAuthorization: true,
+        },
+    });
     await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
@@ -41,7 +51,17 @@ async function handler(req, res) {
             .addBearerAuth()
             .build();
         const document = swagger_1.SwaggerModule.createDocument(app, config);
-        swagger_1.SwaggerModule.setup('api', app, document);
+        swagger_1.SwaggerModule.setup('api', app, document, {
+            customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+            customJs: [
+                'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js',
+            ],
+            customfavIcon: 'https://nestjs.com/img/logo-small.svg',
+            swaggerOptions: {
+                persistAuthorization: true,
+            },
+        });
         await app.init();
         cachedHandler = app.getHttpAdapter().getInstance();
     }

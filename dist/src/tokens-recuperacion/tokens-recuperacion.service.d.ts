@@ -21,13 +21,13 @@ export declare class TokensRecuperacionService {
             contrasena_hash: string | null;
             telefono: string | null;
             rol_id: number;
-            google_id: string | null;
-            ci: string | null;
             imagen_perfil: string | null;
             estado: string;
             correo_verificado: boolean;
             ultimo_login: Date | null;
             refresh_token: string | null;
+            ci: string | null;
+            google_id: string | null;
         };
     } & {
         id: number;

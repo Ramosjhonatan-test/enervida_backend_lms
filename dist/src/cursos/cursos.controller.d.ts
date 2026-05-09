@@ -56,10 +56,6 @@ export declare class CursosController {
             fecha_creacion: Date;
             descripcion: string | null;
         };
-        instructor: {
-            nombres: string;
-            apellidos: string;
-        };
         plantilla_certificado: {
             id: number;
             curso_id: number;
@@ -69,6 +65,10 @@ export declare class CursosController {
             fecha_creacion: Date;
             fecha_actualizacion: Date;
         } | null;
+        instructor: {
+            nombres: string;
+            apellidos: string;
+        };
     } & {
         id: number;
         fecha_creacion: Date;
@@ -93,6 +93,15 @@ export declare class CursosController {
             fecha_creacion: Date;
             descripcion: string | null;
         };
+        plantilla_certificado: {
+            id: number;
+            curso_id: number;
+            nombre: string;
+            background_url: string;
+            config: import("@prisma/client/runtime/client").JsonValue;
+            fecha_creacion: Date;
+            fecha_actualizacion: Date;
+        } | null;
         instructor: {
             id: number;
             fecha_creacion: Date;
@@ -103,13 +112,13 @@ export declare class CursosController {
             contrasena_hash: string | null;
             telefono: string | null;
             rol_id: number;
-            google_id: string | null;
-            ci: string | null;
             imagen_perfil: string | null;
             estado: string;
             correo_verificado: boolean;
             ultimo_login: Date | null;
             refresh_token: string | null;
+            ci: string | null;
+            google_id: string | null;
         };
         evaluaciones: {
             id: number;
@@ -142,15 +151,6 @@ export declare class CursosController {
             titulo: string;
             orden_modulo: number;
         })[];
-        plantilla_certificado: {
-            id: number;
-            curso_id: number;
-            nombre: string;
-            background_url: string;
-            config: import("@prisma/client/runtime/client").JsonValue;
-            fecha_creacion: Date;
-            fecha_actualizacion: Date;
-        } | null;
     } & {
         id: number;
         fecha_creacion: Date;

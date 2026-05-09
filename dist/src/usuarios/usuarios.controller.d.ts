@@ -14,13 +14,13 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     }>;
     getProfile(userId: any): Promise<{
         rol: {
@@ -98,13 +98,13 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     }>;
     create(createDto: CreateUsuarioDto): Promise<{
         id: number;
@@ -116,13 +116,13 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     }>;
     findByRole(nombre: string): Promise<({
         rol: {
@@ -150,13 +150,13 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     })[]>;
     findAll(): Promise<({
         rol: {
@@ -175,13 +175,13 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     })[]>;
     findOne(id: number): Promise<{
         rol: {
@@ -259,13 +259,13 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     }>;
     update(id: number, updateDto: UpdateUsuarioDto): Promise<{
         id: number;
@@ -277,13 +277,13 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     }>;
     remove(id: number): Promise<{
         id: number;
@@ -295,12 +295,12 @@ export declare class UsuariosController {
         contrasena_hash: string | null;
         telefono: string | null;
         rol_id: number;
-        google_id: string | null;
-        ci: string | null;
         imagen_perfil: string | null;
         estado: string;
         correo_verificado: boolean;
         ultimo_login: Date | null;
         refresh_token: string | null;
+        ci: string | null;
+        google_id: string | null;
     }>;
 }

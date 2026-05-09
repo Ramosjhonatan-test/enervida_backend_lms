@@ -60,16 +60,20 @@ let MailsService = class MailsService {
         this.transporter = nodemailer.createTransport({
             host: this.configService.get('SMTP_HOST'),
             port: Number(this.configService.get('SMTP_PORT')),
-            secure: false,
+            secure: Number(this.configService.get('SMTP_PORT')) === 465,
             auth: {
                 user: this.configService.get('SMTP_USER'),
                 pass: this.configService.get('SMTP_PASS'),
             },
-            pool: true,
-            maxConnections: 5,
-            maxMessages: 100,
-            connectionTimeout: 5000,
-            greetingTimeout: 5000,
+            pool: false,
+            connectionTimeout: 20000,
+            greetingTimeout: 20000,
+            socketTimeout: 20000,
+            dnsTimeout: 10000,
+            tls: {
+                rejectUnauthorized: false,
+                minVersion: 'TLSv1.2'
+            }
         });
     }
     async sendMail(to, subject, html) {
