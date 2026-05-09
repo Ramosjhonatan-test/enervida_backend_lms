@@ -10,7 +10,7 @@ export class TokensRecuperacionService {
   async createToken(usuarioId: number) {
     const token = uuidv4();
     const expiraEn = new Date();        
-    expiraEn.setMinutes(expiraEn.getMinutes() + 15); // Expiración en 15 minutos (coincide con el correo)
+    expiraEn.setMinutes(expiraEn.getMinutes() + 60); // Expiración en 60 minutos
 
     return await this.prisma.tokenRecuperacion.create({
       data: {
