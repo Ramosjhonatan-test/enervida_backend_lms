@@ -33,6 +33,10 @@ async function bootstrap() {
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js',
     ],
+    customfavIcon: 'https://nestjs.com/img/logo-small.svg',
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
   });
 
   // 👉 Render sigue usando listen
@@ -65,6 +69,10 @@ export default async function handler(req, res) {
         'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
         'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js',
       ],
+      customfavIcon: 'https://nestjs.com/img/logo-small.svg',
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
     });
 
     await app.init();
