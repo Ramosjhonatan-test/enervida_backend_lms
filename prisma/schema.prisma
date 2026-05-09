@@ -23,8 +23,6 @@ model Usuario {
   apellidos           String
   correo              String                    @unique
   contrasena_hash     String?
-  google_id           String?                   @unique
-  ci                  String?                   @unique
   telefono            String?
   imagen_perfil       String?
   estado              String                    @default("ACTIVO")
@@ -33,6 +31,8 @@ model Usuario {
   fecha_creacion      DateTime                  @default(now())
   fecha_actualizacion DateTime                  @updatedAt
   refresh_token       String?
+  ci                  String?                   @unique
+  google_id           String?                   @unique
   auditoria_logs      AuditoriaLog[]
   certificados        Certificado[]
   clases_creadas      ClaseEnVivo[]             @relation("CreadorClases")
@@ -77,29 +77,29 @@ model Categoria {
 }
 
 model Curso {
-  id                     Int           @id @default(autoincrement())
+  id                     Int                   @id @default(autoincrement())
   categoria_id           Int
   instructor_id          Int
   titulo                 String
-  slug                   String        @unique
+  slug                   String                @unique
   descripcion_corta      String?
   descripcion            String?
   miniatura_url          String?
   nivel                  String?
   tipo_curso             String?
-  certificado_habilitado Boolean       @default(true)
-  publicado              Boolean       @default(false)
-  precio                 Decimal?      @db.Decimal(10, 2)
-  fecha_creacion         DateTime      @default(now())
-  fecha_actualizacion    DateTime      @updatedAt
+  certificado_habilitado Boolean               @default(true)
+  publicado              Boolean               @default(false)
+  precio                 Decimal?              @db.Decimal(10, 2)
+  fecha_creacion         DateTime              @default(now())
+  fecha_actualizacion    DateTime              @updatedAt
+  plantilla_certificado  CertificadoPlantilla?
   certificados           Certificado[]
   clases_en_vivo         ClaseEnVivo[]
-  categoria              Categoria     @relation(fields: [categoria_id], references: [id])
-  instructor             Usuario       @relation("InstructorCursos", fields: [instructor_id], references: [id])
+  categoria              Categoria             @relation(fields: [categoria_id], references: [id])
+  instructor             Usuario               @relation("InstructorCursos", fields: [instructor_id], references: [id])
   evaluaciones           Evaluacion[]
   inscripciones          Inscripcion[]
   modulos                Modulo[]
-  plantilla_certificado  CertificadoPlantilla?
 
   @@map("cursos")
 }
@@ -109,7 +109,7 @@ model CertificadoPlantilla {
   curso_id            Int      @unique
   nombre              String
   background_url      String
-  config              Json     // { student: {x, y, size, color}, course: {x, y, size, color}, date: {x, y, size, color} }
+  config              Json
   fecha_creacion      DateTime @default(now())
   fecha_actualizacion DateTime @updatedAt
   curso               Curso    @relation(fields: [curso_id], references: [id], onDelete: Cascade)

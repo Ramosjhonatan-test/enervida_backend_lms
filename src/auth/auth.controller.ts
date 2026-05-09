@@ -14,8 +14,10 @@ export class AuthController {
   @Public()
   @Post('register')
   @ApiOperation({ summary: 'Registrar un nuevo usuario' })
-  register(@Body() createDto: RegisterDto) {
-    return this.authService.register(createDto);
+  register(@Body() createDto: RegisterDto, @Req() req: any) {
+    const ip = (req.ip || req.connection?.remoteAddress || '') as string;
+    const userAgent = (req.headers['user-agent'] || '') as string;
+    return this.authService.register(createDto, { ip, userAgent });
   }
 
   @Public()

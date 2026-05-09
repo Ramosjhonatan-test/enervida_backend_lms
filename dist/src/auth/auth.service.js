@@ -78,9 +78,11 @@ let AuthService = class AuthService {
         if (existingUser)
             throw new common_1.BadRequestException('El correo ya está registrado');
         const hashed = await bcrypt.hash(contrasena_hash, 10);
-        const studentRole = await this.prisma.rol.findFirst({ where: { nombre: 'estudiante' } });
+        const studentRole = await this.prisma.rol.findFirst({
+            where: { nombre: { equals: 'estudiante', mode: 'insensitive' } }
+        });
         if (!studentRole)
-            throw new common_1.BadRequestException('Rol estudiante no encontrado');
+            throw new common_1.BadRequestException('Rol estudiante no encontrado en el sistema');
         const rolId = studentRole.id;
         const user = await this.prisma.usuario.create({
             data: {
@@ -88,6 +90,7 @@ let AuthService = class AuthService {
                 correo,
                 contrasena_hash: hashed,
                 rol_id: rolId,
+                estado: 'ACTIVO',
             },
             include: { rol: true },
         });

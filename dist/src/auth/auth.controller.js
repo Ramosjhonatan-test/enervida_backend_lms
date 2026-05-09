@@ -26,8 +26,10 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    register(createDto) {
-        return this.authService.register(createDto);
+    register(createDto, req) {
+        const ip = (req.ip || req.connection?.remoteAddress || '');
+        const userAgent = (req.headers['user-agent'] || '');
+        return this.authService.register(createDto, { ip, userAgent });
     }
     login(loginDto, req) {
         const ip = (req.ip || req.connection?.remoteAddress || '');
@@ -61,8 +63,9 @@ __decorate([
     (0, common_1.Post)('register'),
     (0, swagger_1.ApiOperation)({ summary: 'Registrar un nuevo usuario' }),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [register_dto_1.RegisterDto]),
+    __metadata("design:paramtypes", [register_dto_1.RegisterDto, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "register", null);
 __decorate([
