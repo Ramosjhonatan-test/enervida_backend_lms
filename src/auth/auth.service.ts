@@ -241,22 +241,16 @@ export class AuthService {
 
       const tokenRecord = await this.tokensService.createToken(user.id);
       
-      // No esperamos (await) el envío del correo para que la respuesta sea instantánea.
-      // Se maneja el error en un bloque catch separado.
-      this.mailsService.sendPasswordResetEmail(user.correo, user.nombres, tokenRecord.token)
-        .then(() => {
-          console.log(`Correo de recuperación enviado exitosamente a: ${user.correo}`);
-        })
-        .catch(mailError => {
-          console.error('CRITICAL: Error al enviar correo de recuperación:', mailError.message);
-          
-          // Debug info en consola
-          const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${tokenRecord.token}`;
-          console.log('--- DEBUG RECOVERY LINK (EMAIL FAILED) ---');
-          console.log(`Destinatario: ${user.correo}`);
-          console.log(`URL: ${resetUrl}`);
-          console.log('-----------------------------------------');
-        });
+      // 👉 En Vercel DEBEMOS esperar (await) al envío del correo.
+      // De lo contrario, Vercel mata el proceso al responder y el correo nunca sale.
+      try {
+        await this.mailsService.sendPasswordResetEmail(user.correo, user.nombres, tokenRecord.token);
+        console.log(`Correo de recuperación enviado exitosamente a: ${user.correo}`);
+      } catch (mailError) {
+        console.error('CRITICAL: Error al enviar correo de recuperación:', mailError.message);
+        // Opcional: podrías lanzar un error aquí si quieres que el usuario sepa que falló el envío
+        // throw new InternalServerErrorException('No se pudo enviar el correo de recuperación');
+      }
 
       await this.logAuditoria(user.id, 'PASSWORD_RESET_REQUEST', 'usuarios', user.id, `Solicitud de recuperación de contraseña`);
       
