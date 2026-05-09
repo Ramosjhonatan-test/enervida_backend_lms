@@ -33,7 +33,8 @@ dns.setDefaultResultOrder('ipv4first'); // 👈 fuerza IPv4
   }
 
   async sendMail(to: string, subject: string, html: string) {
-    const from = this.configService.get<string>('SMTP_FROM');
+    // Para Hostinger, es mejor que el 'from' sea exactamente igual al 'SMTP_USER'
+    const from = this.configService.get<string>('SMTP_USER'); 
     try {
       await this.transporter.sendMail({
         from,
