@@ -20,10 +20,13 @@ dns.setDefaultResultOrder('ipv4first'); // 👈 fuerza IPv4
         pass: this.configService.get<string>('SMTP_PASS'),
       },
       pool: false,
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
+      connectionTimeout: 20000, // 20s para establecer conexión
+      greetingTimeout: 20000,   // 20s para el saludo
+      socketTimeout: 20000,     // 20s de inactividad de socket
+      dnsTimeout: 10000,        // 10s para DNS
       tls: {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        minVersion: 'TLSv1.2'
       }
     } as nodemailer.TransportOptions);
 
