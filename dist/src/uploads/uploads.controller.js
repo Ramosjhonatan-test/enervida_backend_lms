@@ -58,7 +58,7 @@ __decorate([
             }
         }),
         limits: {
-            fileSize: 100 * 1024 * 1024,
+            fileSize: 900 * 1024 * 1024,
         }
     })),
     __param(0, (0, common_1.UploadedFile)()),
