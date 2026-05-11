@@ -77,10 +77,13 @@ let MailsService = class MailsService {
         });
     }
     async sendMail(to, subject, html) {
-        const from = this.configService.get('SMTP_FROM');
+        const fromEmail = this.configService.get('SMTP_USER') || '';
         try {
             await this.transporter.sendMail({
-                from,
+                from: {
+                    name: 'Enervida LMS',
+                    address: fromEmail,
+                },
                 to,
                 subject,
                 html,
@@ -92,7 +95,8 @@ let MailsService = class MailsService {
         }
     }
     async sendVerificationEmail(email, name, token) {
-        const url = `${this.configService.get('FRONTEND_URL')}/verify-email?token=${token}`;
+        const baseUrl = (this.configService.get('FRONTEND_URL') || '').replace(/\/$/, '');
+        const url = `${baseUrl}/verify-email?token=${token}`;
         const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
         <h2 style="color: #007bff;">¡Bienvenido a Enervida LMS, ${name}!</h2>
@@ -104,7 +108,8 @@ let MailsService = class MailsService {
         await this.sendMail(email, 'Verifica tu cuenta - Enervida LMS', html);
     }
     async sendPasswordResetEmail(email, name, token) {
-        const url = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${token}`;
+        const baseUrl = (this.configService.get('FRONTEND_URL') || '').replace(/\/$/, '');
+        const url = `${baseUrl}/reset-password?token=${token}`;
         const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
         <h2 style="color: #dc3545;">Recuperación de Contraseña</h2>
