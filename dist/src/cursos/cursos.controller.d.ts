@@ -93,6 +93,37 @@ export declare class CursosController {
             fecha_creacion: Date;
             descripcion: string | null;
         };
+        modulos: ({
+            lecciones: {
+                id: number;
+                fecha_creacion: Date;
+                titulo: string;
+                modulo_id: number;
+                orden_leccion: number;
+                tipo_contenido: string;
+                video_url: string | null;
+                pdf_url: string | null;
+                contenido: string | null;
+                duracion_minutos: number | null;
+                es_preview: boolean;
+            }[];
+        } & {
+            id: number;
+            curso_id: number;
+            fecha_creacion: Date;
+            titulo: string;
+            orden_modulo: number;
+        })[];
+        evaluaciones: {
+            id: number;
+            curso_id: number;
+            fecha_creacion: Date;
+            descripcion: string | null;
+            titulo: string;
+            nota_aprobacion: import("@prisma/client-runtime-utils").Decimal;
+            tiempo_limite: number | null;
+            intentos_permitidos: number;
+        }[];
         plantilla_certificado: {
             id: number;
             curso_id: number;
@@ -120,37 +151,6 @@ export declare class CursosController {
             ci: string | null;
             google_id: string | null;
         };
-        evaluaciones: {
-            id: number;
-            curso_id: number;
-            fecha_creacion: Date;
-            descripcion: string | null;
-            titulo: string;
-            nota_aprobacion: import("@prisma/client-runtime-utils").Decimal;
-            tiempo_limite: number | null;
-            intentos_permitidos: number;
-        }[];
-        modulos: ({
-            lecciones: {
-                id: number;
-                fecha_creacion: Date;
-                titulo: string;
-                modulo_id: number;
-                orden_leccion: number;
-                tipo_contenido: string;
-                video_url: string | null;
-                pdf_url: string | null;
-                contenido: string | null;
-                duracion_minutos: number | null;
-                es_preview: boolean;
-            }[];
-        } & {
-            id: number;
-            curso_id: number;
-            fecha_creacion: Date;
-            titulo: string;
-            orden_modulo: number;
-        })[];
     } & {
         id: number;
         fecha_creacion: Date;

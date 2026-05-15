@@ -68,5 +68,6 @@ export declare class AuthService {
     }>;
     private validateAndRegisterDevice;
     private sanitizeUser;
+    private getFailedAttempts;
     private logAuditoria;
 }

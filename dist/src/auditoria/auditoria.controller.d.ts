@@ -5,6 +5,9 @@ export declare class AuditoriaLogsController {
     private readonly service;
     constructor(service: AuditoriaLogsService);
     create(createDto: CreateAuditoriaLogDto): Promise<{
+        id: number;
+        fecha_creacion: Date;
+        usuario_id: number | null;
         accion: string;
         entidad: string;
         entidad_id: number | null;
@@ -15,9 +18,6 @@ export declare class AuditoriaLogsController {
         user_agent: string | null;
         metodo_request: string | null;
         endpoint: string | null;
-        fecha_creacion: Date;
-        id: number;
-        usuario_id: number | null;
     }>;
     findAll(): Promise<({
         usuario: {
@@ -26,6 +26,9 @@ export declare class AuditoriaLogsController {
             correo: string;
         } | null;
     } & {
+        id: number;
+        fecha_creacion: Date;
+        usuario_id: number | null;
         accion: string;
         entidad: string;
         entidad_id: number | null;
@@ -36,11 +39,11 @@ export declare class AuditoriaLogsController {
         user_agent: string | null;
         metodo_request: string | null;
         endpoint: string | null;
-        fecha_creacion: Date;
-        id: number;
-        usuario_id: number | null;
     })[]>;
     findOne(id: number): Promise<{
+        id: number;
+        fecha_creacion: Date;
+        usuario_id: number | null;
         accion: string;
         entidad: string;
         entidad_id: number | null;
@@ -51,11 +54,11 @@ export declare class AuditoriaLogsController {
         user_agent: string | null;
         metodo_request: string | null;
         endpoint: string | null;
-        fecha_creacion: Date;
-        id: number;
-        usuario_id: number | null;
     }>;
     update(id: number, updateDto: UpdateAuditoriaLogDto): Promise<{
+        id: number;
+        fecha_creacion: Date;
+        usuario_id: number | null;
         accion: string;
         entidad: string;
         entidad_id: number | null;
@@ -66,11 +69,11 @@ export declare class AuditoriaLogsController {
         user_agent: string | null;
         metodo_request: string | null;
         endpoint: string | null;
-        fecha_creacion: Date;
-        id: number;
-        usuario_id: number | null;
     }>;
     remove(id: number): Promise<{
+        id: number;
+        fecha_creacion: Date;
+        usuario_id: number | null;
         accion: string;
         entidad: string;
         entidad_id: number | null;
@@ -81,9 +84,6 @@ export declare class AuditoriaLogsController {
         user_agent: string | null;
         metodo_request: string | null;
         endpoint: string | null;
-        fecha_creacion: Date;
-        id: number;
-        usuario_id: number | null;
     }>;
     deleteAll(): Promise<import("@prisma/client").Prisma.BatchPayload>;
 }

@@ -167,13 +167,30 @@ export class AuthService {
   async login(loginDto: LoginDto, requestInfo?: { ip: string; userAgent: string }) {
     const { correo, contrasena, fingerprint, navegador, sistema_operativo, nombre_dispositivo } = loginDto;
 
+    const failedCount = await this.getFailedAttempts(correo);
+
     const user = await this.prisma.usuario.findUnique({ 
       where: { correo },
       include: { rol: true }
     });
+
     if (!user) {
-      await this.logAuditoria(null, 'LOGIN_FAILED', 'usuarios', null, `Intento fallido: ${correo}`, requestInfo);
-      throw new UnauthorizedException('Credenciales inválidas');
+      // Registrar el intento fallido con el correo en valores_nuevos para rastrearlo
+      await this.logAuditoria(null, 'LOGIN_FAILED', 'usuarios', null, `Intento fallido: Correo inexistente ${correo}`, requestInfo, { correo });
+      
+      // Si ya superó el límite, lanzamos bloqueo (aunque no exista el usuario) para no dar pistas y frenar ataques
+      if (failedCount + 1 >= 3) {
+        throw new ForbiddenException('Se han detectado demasiados intentos fallidos desde este correo. Por seguridad, el acceso ha sido restringido temporalmente.');
+      }
+
+      const remaining = 3 - (failedCount + 1);
+      throw new UnauthorizedException(`Credenciales inválidas. Te ${remaining === 1 ? 'queda' : 'quedan'} ${remaining} ${remaining === 1 ? 'intento' : 'intentos'} antes de restringir el acceso.`);
+    }
+
+    // Verificar si la cuenta está bloqueada
+    if (user.estado === 'BLOQUEADO') {
+      await this.logAuditoria(user.id, 'LOGIN_BLOCKED', 'usuarios', user.id, `Intento de acceso a cuenta bloqueada: ${correo}`, requestInfo, { correo });
+      throw new ForbiddenException('Tu cuenta ha sido bloqueada por seguridad tras múltiples intentos fallidos. Contacta al administrador para desbloquearla.');
     }
 
     if (!user.contrasena_hash) {
@@ -182,8 +199,30 @@ export class AuthService {
 
     const isMatch = await bcrypt.compare(contrasena, user.contrasena_hash);
     if (!isMatch) {
-      await this.logAuditoria(user.id, 'LOGIN_FAILED', 'usuarios', user.id, `Contraseña incorrecta para: ${correo}`, requestInfo);
-      throw new UnauthorizedException('Credenciales inválidas');
+      // Registrar el intento fallido
+      await this.logAuditoria(user.id, 'LOGIN_FAILED', 'usuarios', user.id, `Contraseña incorrecta para: ${correo}`, requestInfo, { correo });
+      
+      const currentCount = failedCount + 1;
+
+      if (currentCount >= 3) {
+        await this.prisma.usuario.update({
+          where: { id: user.id },
+          data: { estado: 'BLOQUEADO' }
+        });
+        
+        // Notificar al usuario por correo
+        try {
+          await this.mailsService.sendAccountBlockedEmail(user.correo, user.nombres);
+        } catch (mailError) {
+          console.error('Error al enviar correo de bloqueo:', mailError.message);
+        }
+
+        await this.logAuditoria(user.id, 'ACCOUNT_BLOCKED', 'usuarios', user.id, `Cuenta bloqueada automáticamente tras ${currentCount} intentos fallidos`, requestInfo, { correo });
+        throw new ForbiddenException('Tu cuenta ha sido bloqueada tras 3 intentos fallidos. Por seguridad, hemos enviado un correo de aviso. Contacta al administrador para restaurar el acceso.');
+      }
+
+      const remaining = 3 - currentCount;
+      throw new UnauthorizedException(`Credenciales inválidas. Te ${remaining === 1 ? 'queda' : 'quedan'} ${remaining} ${remaining === 1 ? 'intento' : 'intentos'} antes de bloquear tu cuenta.`);
     }
 
     // Bloqueo por Dispositivo (Solo para estudiantes)
@@ -370,7 +409,36 @@ export class AuthService {
     };
   }
 
-  private async logAuditoria(usuarioId: number | null, accion: string, entidad: string, entidadId: number | null, descripcion: string, info?: any) {
+  private async getFailedAttempts(correo: string): Promise<number> {
+    const cutoff = new Date(Date.now() - 30 * 60 * 1000);
+    
+    // Buscar el último éxito para este correo
+    const lastSuccess = await this.prisma.auditoriaLog.findFirst({
+      where: {
+        accion: 'LOGIN_SUCCESS',
+        usuario: { correo }
+      },
+      orderBy: { fecha_creacion: 'desc' }
+    });
+
+    const startTime = (lastSuccess && lastSuccess.fecha_creacion > cutoff) 
+      ? lastSuccess.fecha_creacion 
+      : cutoff;
+
+    // Contar fallos (por ID de usuario o por el correo guardado en valores_nuevos)
+    return await this.prisma.auditoriaLog.count({
+      where: {
+        accion: 'LOGIN_FAILED',
+        fecha_creacion: { gt: startTime },
+        OR: [
+          { usuario: { correo } },
+          { valores_nuevos: { path: ['correo'], equals: correo } }
+        ]
+      }
+    });
+  }
+
+  private async logAuditoria(usuarioId: number | null, accion: string, entidad: string, entidadId: number | null, descripcion: string, info?: any, valores_nuevos?: any) {
     await this.auditoriaService.log({
       usuario_id: usuarioId || undefined,
       accion,
@@ -379,8 +447,9 @@ export class AuthService {
       descripcion,
       direccion_ip: info?.ip,
       user_agent: info?.userAgent,
-      metodo_request: 'POST', // Mayoría de acciones en AuthService son POST (Login, Register, etc)
-      endpoint: '/auth/login', // Simplificado, idealmente vendría de request
+      metodo_request: 'POST', 
+      endpoint: '/auth/login',
+      valores_nuevos,
     });
   }
 }
