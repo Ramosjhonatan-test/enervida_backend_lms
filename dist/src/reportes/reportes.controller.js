@@ -24,6 +24,21 @@ let ReportesController = class ReportesController {
     getEnrollmentsByCourse() {
         return this.service.getEnrollmentsByCourse();
     }
+    getInscriptionsByStatus() {
+        return this.service.getInscriptionsByStatus();
+    }
+    getUsersByMonth() {
+        return this.service.getUsersByMonth();
+    }
+    getCoursesByCategory() {
+        return this.service.getCoursesByCategory();
+    }
+    getCertificatesByMonth() {
+        return this.service.getCertificatesByMonth();
+    }
+    getEvaluationResults() {
+        return this.service.getEvaluationResults();
+    }
 };
 exports.ReportesController = ReportesController;
 __decorate([
@@ -40,6 +55,41 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ReportesController.prototype, "getEnrollmentsByCourse", null);
+__decorate([
+    (0, common_1.Get)('inscripciones-por-estado'),
+    (0, swagger_1.ApiOperation)({ summary: 'Distribución de inscripciones por estado' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ReportesController.prototype, "getInscriptionsByStatus", null);
+__decorate([
+    (0, common_1.Get)('usuarios-por-mes'),
+    (0, swagger_1.ApiOperation)({ summary: 'Registro de usuarios por mes (últimos 6)' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ReportesController.prototype, "getUsersByMonth", null);
+__decorate([
+    (0, common_1.Get)('cursos-por-categoria'),
+    (0, swagger_1.ApiOperation)({ summary: 'Cantidad de cursos por categoría' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ReportesController.prototype, "getCoursesByCategory", null);
+__decorate([
+    (0, common_1.Get)('certificados-por-mes'),
+    (0, swagger_1.ApiOperation)({ summary: 'Certificados emitidos por mes (últimos 6)' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ReportesController.prototype, "getCertificatesByMonth", null);
+__decorate([
+    (0, common_1.Get)('evaluaciones-resultados'),
+    (0, swagger_1.ApiOperation)({ summary: 'Proporción de evaluaciones aprobadas vs reprobadas' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ReportesController.prototype, "getEvaluationResults", null);
 exports.ReportesController = ReportesController = __decorate([
     (0, swagger_1.ApiTags)('reportes'),
     (0, common_1.Controller)('reportes'),

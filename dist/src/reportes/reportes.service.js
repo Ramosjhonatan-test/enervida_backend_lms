@@ -154,6 +154,60 @@ let ReportesService = class ReportesService {
             take: 5
         });
     }
+    async getInscriptionsByStatus() {
+        const estados = ['PENDIENTE', 'APROBADO', 'RECHAZADO', 'COMPLETADO'];
+        const counts = await Promise.all(estados.map(estado => this.prisma.inscripcion.count({ where: { estado } })));
+        return estados.map((estado, i) => ({ estado, count: counts[i] }));
+    }
+    async getUsersByMonth() {
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+        const usuarios = await this.prisma.usuario.findMany({
+            where: { fecha_creacion: { gte: sixMonthsAgo } },
+            select: { fecha_creacion: true }
+        });
+        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        return Array(6).fill(0).map((_, i) => {
+            const date = new Date();
+            date.setMonth(date.getMonth() - (5 - i));
+            const count = usuarios.filter(u => u.fecha_creacion.getMonth() === date.getMonth() &&
+                u.fecha_creacion.getFullYear() === date.getFullYear()).length;
+            return { month: months[date.getMonth()], count };
+        });
+    }
+    async getCoursesByCategory() {
+        return this.prisma.categoria.findMany({
+            select: {
+                nombre: true,
+                _count: { select: { cursos: true } }
+            },
+            orderBy: { cursos: { _count: 'desc' } },
+            take: 8
+        });
+    }
+    async getCertificatesByMonth() {
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+        const certs = await this.prisma.certificado.findMany({
+            where: { fecha_emision: { gte: sixMonthsAgo } },
+            select: { fecha_emision: true }
+        });
+        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        return Array(6).fill(0).map((_, i) => {
+            const date = new Date();
+            date.setMonth(date.getMonth() - (5 - i));
+            const count = certs.filter(c => c.fecha_emision.getMonth() === date.getMonth() &&
+                c.fecha_emision.getFullYear() === date.getFullYear()).length;
+            return { month: months[date.getMonth()], count };
+        });
+    }
+    async getEvaluationResults() {
+        const [aprobados, reprobados] = await Promise.all([
+            this.prisma.intentoEvaluacion.count({ where: { aprobado: true } }),
+            this.prisma.intentoEvaluacion.count({ where: { aprobado: false } }),
+        ]);
+        return { aprobados, reprobados };
+    }
 };
 exports.ReportesService = ReportesService;
 exports.ReportesService = ReportesService = __decorate([

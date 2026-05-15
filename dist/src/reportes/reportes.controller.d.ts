@@ -27,4 +27,26 @@ export declare class ReportesController {
         };
         titulo: string;
     }[]>;
+    getInscriptionsByStatus(): Promise<{
+        estado: string;
+        count: number;
+    }[]>;
+    getUsersByMonth(): Promise<{
+        month: string;
+        count: number;
+    }[]>;
+    getCoursesByCategory(): Promise<{
+        nombre: string;
+        _count: {
+            cursos: number;
+        };
+    }[]>;
+    getCertificatesByMonth(): Promise<{
+        month: string;
+        count: number;
+    }[]>;
+    getEvaluationResults(): Promise<{
+        aprobados: number;
+        reprobados: number;
+    }>;
 }
