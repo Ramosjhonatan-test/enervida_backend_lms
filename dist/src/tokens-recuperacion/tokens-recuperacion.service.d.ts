@@ -5,22 +5,22 @@ export declare class TokensRecuperacionService {
     createToken(usuarioId: number): Promise<{
         id: number;
         fecha_creacion: Date;
+        usuario_id: number;
         token: string;
         expira_en: Date;
         usado: boolean;
-        usuario_id: number;
     }>;
     validateToken(token: string): Promise<{
         usuario: {
             id: number;
             fecha_creacion: Date;
             fecha_actualizacion: Date;
-            correo: string;
+            rol_id: number;
             nombres: string;
             apellidos: string;
+            correo: string;
             contrasena_hash: string | null;
             telefono: string | null;
-            rol_id: number;
             imagen_perfil: string | null;
             estado: string;
             correo_verificado: boolean;
@@ -32,10 +32,10 @@ export declare class TokensRecuperacionService {
     } & {
         id: number;
         fecha_creacion: Date;
+        usuario_id: number;
         token: string;
         expira_en: Date;
         usado: boolean;
-        usuario_id: number;
     }>;
     markAsUsed(tokenId: number): Promise<void>;
 }

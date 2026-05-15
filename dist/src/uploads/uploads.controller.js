@@ -19,7 +19,15 @@ const swagger_1 = require("@nestjs/swagger");
 const multer_1 = require("multer");
 const path_1 = require("path");
 const uuid_1 = require("uuid");
+const uploads_service_1 = require("./uploads.service");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../auth/guards/roles.guard");
+const roles_decorator_1 = require("../auth/decorators/roles.decorator");
 let UploadsController = class UploadsController {
+    uploadsService;
+    constructor(uploadsService) {
+        this.uploadsService = uploadsService;
+    }
     uploadFile(file) {
         if (!file) {
             throw new common_1.BadRequestException('Archivo no subido');
@@ -31,6 +39,18 @@ let UploadsController = class UploadsController {
             mimetype: file.mimetype,
             size: file.size,
         };
+    }
+    findAll() {
+        return this.uploadsService.findAll();
+    }
+    remove(filename) {
+        return this.uploadsService.deleteFile(filename);
+    }
+    removeBulk(filenames) {
+        if (!filenames || !Array.isArray(filenames)) {
+            throw new common_1.BadRequestException('Se requiere una lista de nombres de archivo');
+        }
+        return this.uploadsService.deleteBulk(filenames);
     }
 };
 exports.UploadsController = UploadsController;
@@ -66,9 +86,50 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UploadsController.prototype, "uploadFile", null);
+__decorate([
+    (0, common_1.Get)('admin/list'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN'),
+    (0, swagger_1.ApiOperation)({ summary: 'Lista todos los archivos subidos y su estado de uso (Admin)' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], UploadsController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Delete)('admin/:filename'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN'),
+    (0, swagger_1.ApiOperation)({ summary: 'Elimina un archivo del servidor (Admin)' }),
+    __param(0, (0, common_1.Param)('filename')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UploadsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('admin/bulk-delete'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN'),
+    (0, swagger_1.ApiOperation)({ summary: 'Elimina múltiples archivos del servidor (Admin)' }),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: 'object',
+            properties: {
+                filenames: {
+                    type: 'array',
+                    items: { type: 'string' },
+                },
+            },
+        },
+    }),
+    __param(0, (0, common_1.Body)('filenames')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array]),
+    __metadata("design:returntype", void 0)
+], UploadsController.prototype, "removeBulk", null);
 exports.UploadsController = UploadsController = __decorate([
     (0, swagger_1.ApiTags)('uploads'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)('uploads')
+    (0, common_1.Controller)('uploads'),
+    __metadata("design:paramtypes", [uploads_service_1.UploadsService])
 ], UploadsController);
 //# sourceMappingURL=uploads.controller.js.map

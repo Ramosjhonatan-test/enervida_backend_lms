@@ -4,8 +4,8 @@ export declare class CreateAuditoriaLogDto {
     entidad: string;
     entidad_id?: number;
     descripcion?: string;
-    valores_anteriores?: string;
-    valores_nuevos?: string;
+    valores_anteriores?: any;
+    valores_nuevos?: any;
     direccion_ip?: string;
     user_agent?: string;
     metodo_request?: string;

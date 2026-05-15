@@ -16,6 +16,7 @@ const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
 const jwt_auth_guard_1 = require("./auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("./auth/guards/roles.guard");
+const auditoria_interceptor_1 = require("./common/interceptors/auditoria.interceptor");
 const prisma_module_1 = require("./prisma/prisma.module");
 const auth_module_1 = require("./auth/auth.module");
 const uploads_module_1 = require("./uploads/uploads.module");
@@ -88,6 +89,10 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_GUARD,
                 useClass: roles_guard_1.RolesGuard,
+            },
+            {
+                provide: core_1.APP_INTERCEPTOR,
+                useClass: auditoria_interceptor_1.AuditoriaInterceptor,
             },
         ],
     })

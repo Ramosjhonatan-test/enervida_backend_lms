@@ -8,8 +8,8 @@ export declare class LeccionsService {
         id: number;
         fecha_creacion: Date;
         titulo: string;
-        orden_leccion: number;
         modulo_id: number;
+        orden_leccion: number;
         tipo_contenido: string;
         video_url: string | null;
         pdf_url: string | null;
@@ -21,8 +21,8 @@ export declare class LeccionsService {
         id: number;
         fecha_creacion: Date;
         titulo: string;
-        orden_leccion: number;
         modulo_id: number;
+        orden_leccion: number;
         tipo_contenido: string;
         video_url: string | null;
         pdf_url: string | null;
@@ -34,8 +34,8 @@ export declare class LeccionsService {
         id: number;
         fecha_creacion: Date;
         titulo: string;
-        orden_leccion: number;
         modulo_id: number;
+        orden_leccion: number;
         tipo_contenido: string;
         video_url: string | null;
         pdf_url: string | null;
@@ -47,8 +47,8 @@ export declare class LeccionsService {
         id: number;
         fecha_creacion: Date;
         titulo: string;
-        orden_leccion: number;
         modulo_id: number;
+        orden_leccion: number;
         tipo_contenido: string;
         video_url: string | null;
         pdf_url: string | null;
@@ -60,8 +60,8 @@ export declare class LeccionsService {
         id: number;
         fecha_creacion: Date;
         titulo: string;
-        orden_leccion: number;
         modulo_id: number;
+        orden_leccion: number;
         tipo_contenido: string;
         video_url: string | null;
         pdf_url: string | null;

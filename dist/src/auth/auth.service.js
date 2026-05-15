@@ -360,16 +360,16 @@ let AuthService = class AuthService {
         };
     }
     async logAuditoria(usuarioId, accion, entidad, entidadId, descripcion, info) {
-        await this.prisma.auditoriaLog.create({
-            data: {
-                usuario_id: usuarioId,
-                accion,
-                entidad,
-                entidad_id: entidadId,
-                descripcion,
-                direccion_ip: info?.ip,
-                user_agent: info?.userAgent,
-            },
+        await this.auditoriaService.log({
+            usuario_id: usuarioId || undefined,
+            accion,
+            entidad,
+            entidad_id: entidadId || undefined,
+            descripcion,
+            direccion_ip: info?.ip,
+            user_agent: info?.userAgent,
+            metodo_request: 'POST',
+            endpoint: '/auth/login',
         });
     }
 };

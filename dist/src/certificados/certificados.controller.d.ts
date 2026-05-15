@@ -11,7 +11,6 @@ export declare class CertificadosController {
             fecha_creacion: Date;
             fecha_actualizacion: Date;
             descripcion: string | null;
-            precio: import("@prisma/client-runtime-utils").Decimal | null;
             categoria_id: number;
             instructor_id: number;
             titulo: string;
@@ -22,6 +21,7 @@ export declare class CertificadosController {
             tipo_curso: string | null;
             certificado_habilitado: boolean;
             publicado: boolean;
+            precio: import("@prisma/client-runtime-utils").Decimal | null;
         };
     } & {
         id: number;
@@ -45,7 +45,6 @@ export declare class CertificadosController {
             fecha_creacion: Date;
             fecha_actualizacion: Date;
             descripcion: string | null;
-            precio: import("@prisma/client-runtime-utils").Decimal | null;
             categoria_id: number;
             instructor_id: number;
             titulo: string;
@@ -56,6 +55,7 @@ export declare class CertificadosController {
             tipo_curso: string | null;
             certificado_habilitado: boolean;
             publicado: boolean;
+            precio: import("@prisma/client-runtime-utils").Decimal | null;
         };
     } & {
         id: number;

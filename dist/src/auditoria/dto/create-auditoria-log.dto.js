@@ -56,16 +56,14 @@ __decorate([
     __metadata("design:type", String)
 ], CreateAuditoriaLogDto.prototype, "descripcion", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ type: String }),
+    (0, swagger_1.ApiPropertyOptional)({ type: Object }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], CreateAuditoriaLogDto.prototype, "valores_anteriores", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ type: String }),
+    (0, swagger_1.ApiPropertyOptional)({ type: Object }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], CreateAuditoriaLogDto.prototype, "valores_nuevos", void 0);
 __decorate([
     (0, swagger_1.ApiPropertyOptional)({ type: String }),

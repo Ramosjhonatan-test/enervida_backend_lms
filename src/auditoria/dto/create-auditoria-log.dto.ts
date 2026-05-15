@@ -25,15 +25,13 @@ export class CreateAuditoriaLogDto {
   @IsString()
   descripcion?: string;
 
-  @ApiPropertyOptional({ type: String })
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
-  @IsString()
-  valores_anteriores?: string;
+  valores_anteriores?: any;
 
-  @ApiPropertyOptional({ type: String })
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
-  @IsString()
-  valores_nuevos?: string;
+  valores_nuevos?: any;
 
   @ApiPropertyOptional({ type: String })
   @IsOptional()

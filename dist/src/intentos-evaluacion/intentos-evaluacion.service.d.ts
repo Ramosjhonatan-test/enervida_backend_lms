@@ -12,46 +12,46 @@ export declare class IntentoEvaluacionsService {
         intentos_permitidos: number;
         id: number;
         usuario_id: number;
-        fecha_inicio: Date;
-        fecha_fin: Date | null;
         evaluacion_id: number;
         nota: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_inicio: Date;
+        fecha_fin: Date | null;
         aprobado: boolean | null;
     }>;
     findAll(): Promise<{
         id: number;
         usuario_id: number;
-        fecha_inicio: Date;
-        fecha_fin: Date | null;
         evaluacion_id: number;
         nota: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_inicio: Date;
+        fecha_fin: Date | null;
         aprobado: boolean | null;
     }[]>;
     findOne(id: number): Promise<{
         id: number;
         usuario_id: number;
-        fecha_inicio: Date;
-        fecha_fin: Date | null;
         evaluacion_id: number;
         nota: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_inicio: Date;
+        fecha_fin: Date | null;
         aprobado: boolean | null;
     }>;
     update(id: number, updateDto: UpdateIntentoEvaluacionDto): Promise<{
         id: number;
         usuario_id: number;
-        fecha_inicio: Date;
-        fecha_fin: Date | null;
         evaluacion_id: number;
         nota: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_inicio: Date;
+        fecha_fin: Date | null;
         aprobado: boolean | null;
     }>;
     remove(id: number): Promise<{
         id: number;
         usuario_id: number;
-        fecha_inicio: Date;
-        fecha_fin: Date | null;
         evaluacion_id: number;
         nota: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_inicio: Date;
+        fecha_fin: Date | null;
         aprobado: boolean | null;
     }>;
 }

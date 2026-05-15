@@ -38,4 +38,10 @@ export class AuditoriaLogsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.service.remove(id);
   }
+
+  @Delete('all/clear')
+  @ApiOperation({ summary: 'Eliminar todos los AuditoriaLogs' })
+  deleteAll() {
+    return this.service.deleteAll();
+  }
 }

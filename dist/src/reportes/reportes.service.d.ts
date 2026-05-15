@@ -7,7 +7,22 @@ export declare class ReportesService {
         totalEstudiantes: number;
         totalInscripciones: number;
         totalVentas: number | import("@prisma/client-runtime-utils").Decimal;
+        trend: {
+            month: string;
+            count: number;
+        }[];
+        activities: {
+            type: string;
+            title: string;
+            detail: string;
+            time: Date | null;
+            icon: string;
+            route: string;
+        }[];
+        pendingInscriptions: number;
     }>;
+    private getTrendData;
+    private getRecentActivities;
     getEnrollmentsByCourse(): Promise<{
         _count: {
             inscripciones: number;

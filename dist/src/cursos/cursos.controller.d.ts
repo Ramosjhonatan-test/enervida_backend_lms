@@ -9,7 +9,6 @@ export declare class CursosController {
         fecha_creacion: Date;
         fecha_actualizacion: Date;
         descripcion: string | null;
-        precio: import("@prisma/client-runtime-utils").Decimal | null;
         categoria_id: number;
         instructor_id: number;
         titulo: string;
@@ -20,6 +19,7 @@ export declare class CursosController {
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
+        precio: import("@prisma/client-runtime-utils").Decimal | null;
     }>;
     findPublished(): Promise<({
         categoria: {
@@ -37,7 +37,6 @@ export declare class CursosController {
         fecha_creacion: Date;
         fecha_actualizacion: Date;
         descripcion: string | null;
-        precio: import("@prisma/client-runtime-utils").Decimal | null;
         categoria_id: number;
         instructor_id: number;
         titulo: string;
@@ -48,6 +47,7 @@ export declare class CursosController {
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
+        precio: import("@prisma/client-runtime-utils").Decimal | null;
     })[]>;
     findAll(): Promise<({
         categoria: {
@@ -74,7 +74,6 @@ export declare class CursosController {
         fecha_creacion: Date;
         fecha_actualizacion: Date;
         descripcion: string | null;
-        precio: import("@prisma/client-runtime-utils").Decimal | null;
         categoria_id: number;
         instructor_id: number;
         titulo: string;
@@ -85,6 +84,7 @@ export declare class CursosController {
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
+        precio: import("@prisma/client-runtime-utils").Decimal | null;
     })[]>;
     findOne(id: number): Promise<{
         categoria: {
@@ -106,12 +106,12 @@ export declare class CursosController {
             id: number;
             fecha_creacion: Date;
             fecha_actualizacion: Date;
-            correo: string;
+            rol_id: number;
             nombres: string;
             apellidos: string;
+            correo: string;
             contrasena_hash: string | null;
             telefono: string | null;
-            rol_id: number;
             imagen_perfil: string | null;
             estado: string;
             correo_verificado: boolean;
@@ -135,8 +135,8 @@ export declare class CursosController {
                 id: number;
                 fecha_creacion: Date;
                 titulo: string;
-                orden_leccion: number;
                 modulo_id: number;
+                orden_leccion: number;
                 tipo_contenido: string;
                 video_url: string | null;
                 pdf_url: string | null;
@@ -156,7 +156,6 @@ export declare class CursosController {
         fecha_creacion: Date;
         fecha_actualizacion: Date;
         descripcion: string | null;
-        precio: import("@prisma/client-runtime-utils").Decimal | null;
         categoria_id: number;
         instructor_id: number;
         titulo: string;
@@ -167,13 +166,13 @@ export declare class CursosController {
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
+        precio: import("@prisma/client-runtime-utils").Decimal | null;
     }>;
     update(id: number, updateDto: UpdateCursoDto): Promise<{
         id: number;
         fecha_creacion: Date;
         fecha_actualizacion: Date;
         descripcion: string | null;
-        precio: import("@prisma/client-runtime-utils").Decimal | null;
         categoria_id: number;
         instructor_id: number;
         titulo: string;
@@ -184,13 +183,13 @@ export declare class CursosController {
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
+        precio: import("@prisma/client-runtime-utils").Decimal | null;
     }>;
     remove(id: number): Promise<{
         id: number;
         fecha_creacion: Date;
         fecha_actualizacion: Date;
         descripcion: string | null;
-        precio: import("@prisma/client-runtime-utils").Decimal | null;
         categoria_id: number;
         instructor_id: number;
         titulo: string;
@@ -201,5 +200,6 @@ export declare class CursosController {
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
+        precio: import("@prisma/client-runtime-utils").Decimal | null;
     }>;
 }

@@ -22,6 +22,23 @@ let AuditoriaLogsService = class AuditoriaLogsService {
             data: createDto,
         });
     }
+    async log(params) {
+        return this.prisma.auditoriaLog.create({
+            data: {
+                usuario_id: params.usuario_id || null,
+                accion: params.accion,
+                entidad: params.entidad,
+                entidad_id: params.entidad_id || null,
+                descripcion: params.descripcion || null,
+                valores_anteriores: params.valores_anteriores || null,
+                valores_nuevos: params.valores_nuevos || null,
+                direccion_ip: params.direccion_ip || '0.0.0.0',
+                user_agent: params.user_agent || 'unknown',
+                metodo_request: params.metodo_request || 'N/A',
+                endpoint: params.endpoint || 'N/A',
+            }
+        });
+    }
     async findAll() {
         return this.prisma.auditoriaLog.findMany({
             include: {
@@ -50,6 +67,9 @@ let AuditoriaLogsService = class AuditoriaLogsService {
         return this.prisma.auditoriaLog.delete({
             where: { id },
         });
+    }
+    async deleteAll() {
+        return this.prisma.auditoriaLog.deleteMany();
     }
 };
 exports.AuditoriaLogsService = AuditoriaLogsService;

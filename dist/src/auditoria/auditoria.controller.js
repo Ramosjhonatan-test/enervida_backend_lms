@@ -38,6 +38,9 @@ let AuditoriaLogsController = class AuditoriaLogsController {
     remove(id) {
         return this.service.remove(id);
     }
+    deleteAll() {
+        return this.service.deleteAll();
+    }
 };
 exports.AuditoriaLogsController = AuditoriaLogsController;
 __decorate([
@@ -80,6 +83,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], AuditoriaLogsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Delete)('all/clear'),
+    (0, swagger_1.ApiOperation)({ summary: 'Eliminar todos los AuditoriaLogs' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuditoriaLogsController.prototype, "deleteAll", null);
 exports.AuditoriaLogsController = AuditoriaLogsController = __decorate([
     (0, swagger_1.ApiTags)('auditoria'),
     (0, common_1.Controller)('auditoria'),

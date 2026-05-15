@@ -371,16 +371,16 @@ export class AuthService {
   }
 
   private async logAuditoria(usuarioId: number | null, accion: string, entidad: string, entidadId: number | null, descripcion: string, info?: any) {
-    await this.prisma.auditoriaLog.create({
-      data: {
-        usuario_id: usuarioId,
-        accion,
-        entidad,
-        entidad_id: entidadId,
-        descripcion,
-        direccion_ip: info?.ip,
-        user_agent: info?.userAgent,
-      },
+    await this.auditoriaService.log({
+      usuario_id: usuarioId || undefined,
+      accion,
+      entidad,
+      entidad_id: entidadId || undefined,
+      descripcion,
+      direccion_ip: info?.ip,
+      user_agent: info?.userAgent,
+      metodo_request: 'POST', // Mayoría de acciones en AuthService son POST (Login, Register, etc)
+      endpoint: '/auth/login', // Simplificado, idealmente vendría de request
     });
   }
 }
