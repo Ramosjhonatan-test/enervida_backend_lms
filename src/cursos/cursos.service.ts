@@ -30,7 +30,10 @@ export class CursosService {
       where: { publicado: true },
       include: { 
         categoria: true, 
-        instructor: { select: { nombres: true, apellidos: true } } 
+        instructor: { select: { nombres: true, apellidos: true } },
+        modulos: {
+          orderBy: { orden_modulo: 'asc' }
+        }
       }
     });
   }

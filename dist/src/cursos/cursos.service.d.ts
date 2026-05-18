@@ -5,138 +5,114 @@ export declare class CursosService {
     private prisma;
     constructor(prisma: PrismaService);
     create(createDto: CreateCursoDto): Promise<{
-        id: number;
-        fecha_creacion: Date;
-        fecha_actualizacion: Date;
-        descripcion: string | null;
-        categoria_id: number;
-        instructor_id: number;
         titulo: string;
         slug: string;
         descripcion_corta: string | null;
+        descripcion: string | null;
         miniatura_url: string | null;
         nivel: string | null;
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
         precio: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_creacion: Date;
+        fecha_actualizacion: Date;
+        id: number;
+        categoria_id: number;
+        instructor_id: number;
     }>;
     findAll(): Promise<({
-        categoria: {
-            id: number;
-            nombre: string;
-            fecha_creacion: Date;
-            descripcion: string | null;
-        };
         plantilla_certificado: {
+            fecha_creacion: Date;
+            fecha_actualizacion: Date;
             id: number;
             curso_id: number;
             nombre: string;
             background_url: string;
             config: import("@prisma/client/runtime/client").JsonValue;
-            fecha_creacion: Date;
-            fecha_actualizacion: Date;
         } | null;
+        categoria: {
+            descripcion: string | null;
+            fecha_creacion: Date;
+            id: number;
+            nombre: string;
+        };
         instructor: {
             nombres: string;
             apellidos: string;
         };
     } & {
-        id: number;
-        fecha_creacion: Date;
-        fecha_actualizacion: Date;
-        descripcion: string | null;
-        categoria_id: number;
-        instructor_id: number;
         titulo: string;
         slug: string;
         descripcion_corta: string | null;
+        descripcion: string | null;
         miniatura_url: string | null;
         nivel: string | null;
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
         precio: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_creacion: Date;
+        fecha_actualizacion: Date;
+        id: number;
+        categoria_id: number;
+        instructor_id: number;
     })[]>;
     findPublished(): Promise<({
         categoria: {
+            descripcion: string | null;
+            fecha_creacion: Date;
             id: number;
             nombre: string;
-            fecha_creacion: Date;
-            descripcion: string | null;
         };
         instructor: {
             nombres: string;
             apellidos: string;
         };
+        modulos: {
+            titulo: string;
+            fecha_creacion: Date;
+            id: number;
+            curso_id: number;
+            orden_modulo: number;
+        }[];
     } & {
-        id: number;
-        fecha_creacion: Date;
-        fecha_actualizacion: Date;
-        descripcion: string | null;
-        categoria_id: number;
-        instructor_id: number;
         titulo: string;
         slug: string;
         descripcion_corta: string | null;
+        descripcion: string | null;
         miniatura_url: string | null;
         nivel: string | null;
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
         precio: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_creacion: Date;
+        fecha_actualizacion: Date;
+        id: number;
+        categoria_id: number;
+        instructor_id: number;
     })[]>;
     findOne(id: number): Promise<{
-        categoria: {
-            id: number;
-            nombre: string;
-            fecha_creacion: Date;
-            descripcion: string | null;
-        };
-        modulos: ({
-            lecciones: {
-                id: number;
-                fecha_creacion: Date;
-                titulo: string;
-                modulo_id: number;
-                orden_leccion: number;
-                tipo_contenido: string;
-                video_url: string | null;
-                pdf_url: string | null;
-                contenido: string | null;
-                duracion_minutos: number | null;
-                es_preview: boolean;
-            }[];
-        } & {
-            id: number;
-            curso_id: number;
-            fecha_creacion: Date;
-            titulo: string;
-            orden_modulo: number;
-        })[];
-        evaluaciones: {
-            id: number;
-            curso_id: number;
-            fecha_creacion: Date;
-            descripcion: string | null;
-            titulo: string;
-            nota_aprobacion: import("@prisma/client-runtime-utils").Decimal;
-            tiempo_limite: number | null;
-            intentos_permitidos: number;
-        }[];
         plantilla_certificado: {
+            fecha_creacion: Date;
+            fecha_actualizacion: Date;
             id: number;
             curso_id: number;
             nombre: string;
             background_url: string;
             config: import("@prisma/client/runtime/client").JsonValue;
-            fecha_creacion: Date;
-            fecha_actualizacion: Date;
         } | null;
-        instructor: {
+        categoria: {
+            descripcion: string | null;
+            fecha_creacion: Date;
             id: number;
+            nombre: string;
+        };
+        instructor: {
             fecha_creacion: Date;
             fecha_actualizacion: Date;
+            id: number;
             rol_id: number;
             nombres: string;
             apellidos: string;
@@ -151,55 +127,86 @@ export declare class CursosService {
             ci: string | null;
             google_id: string | null;
         };
+        evaluaciones: {
+            titulo: string;
+            descripcion: string | null;
+            fecha_creacion: Date;
+            id: number;
+            curso_id: number;
+            nota_aprobacion: import("@prisma/client-runtime-utils").Decimal;
+            tiempo_limite: number | null;
+            intentos_permitidos: number;
+        }[];
+        modulos: ({
+            lecciones: {
+                titulo: string;
+                fecha_creacion: Date;
+                id: number;
+                orden_leccion: number;
+                modulo_id: number;
+                tipo_contenido: string;
+                video_url: string | null;
+                pdf_url: string | null;
+                contenido: string | null;
+                duracion_minutos: number | null;
+                es_preview: boolean;
+            }[];
+        } & {
+            titulo: string;
+            fecha_creacion: Date;
+            id: number;
+            curso_id: number;
+            orden_modulo: number;
+        })[];
     } & {
-        id: number;
-        fecha_creacion: Date;
-        fecha_actualizacion: Date;
-        descripcion: string | null;
-        categoria_id: number;
-        instructor_id: number;
         titulo: string;
         slug: string;
         descripcion_corta: string | null;
+        descripcion: string | null;
         miniatura_url: string | null;
         nivel: string | null;
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
         precio: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_creacion: Date;
+        fecha_actualizacion: Date;
+        id: number;
+        categoria_id: number;
+        instructor_id: number;
     }>;
     update(id: number, updateDto: UpdateCursoDto): Promise<{
-        id: number;
-        fecha_creacion: Date;
-        fecha_actualizacion: Date;
-        descripcion: string | null;
-        categoria_id: number;
-        instructor_id: number;
         titulo: string;
         slug: string;
         descripcion_corta: string | null;
+        descripcion: string | null;
         miniatura_url: string | null;
         nivel: string | null;
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
         precio: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_creacion: Date;
+        fecha_actualizacion: Date;
+        id: number;
+        categoria_id: number;
+        instructor_id: number;
     }>;
     remove(id: number): Promise<{
-        id: number;
-        fecha_creacion: Date;
-        fecha_actualizacion: Date;
-        descripcion: string | null;
-        categoria_id: number;
-        instructor_id: number;
         titulo: string;
         slug: string;
         descripcion_corta: string | null;
+        descripcion: string | null;
         miniatura_url: string | null;
         nivel: string | null;
         tipo_curso: string | null;
         certificado_habilitado: boolean;
         publicado: boolean;
         precio: import("@prisma/client-runtime-utils").Decimal | null;
+        fecha_creacion: Date;
+        fecha_actualizacion: Date;
+        id: number;
+        categoria_id: number;
+        instructor_id: number;
     }>;
 }
